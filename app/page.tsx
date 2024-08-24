@@ -14,48 +14,72 @@ Amplify.configure(outputs);
 const client = generateClient<Schema>();
 
 export default function App() {
-  const [todos, setTodos] = useState<Array<Schema["Todo"]["type"]>>([]);
-  
-  function deleteTodo(id: string) {
-    client.models.Todo.delete({ id })
+  const [transcript, setTranscript] = useState<string>("Sample sales transcript text here...");
+  const [comments, setComments] = useState<Array<Schema["Comment"]["type"]>>([]);
+  const [selectedText, setSelectedText] = useState<string | null>(null);
+  const [summary, setSummary] = useState<string>("");
+
+  async function deleteComment(id: string) {
+    await client.models.Comment.delete({ id });
+    listComments(); // Refresh comments after deletion
   }
-  function listTodos() {
-    client.models.Todo.observeQuery().subscribe({
-      next: (data) => setTodos([...data.items]),
-    });
+
+  async function listComments() {
+    try {
+      const result = await client.models.Comment.query({});
+      setComments(result.items);
+    } catch (error) {
+      console.error("Error fetching comments:", error);
+    }
+  }
+
+  async function createComment() {
+    const content = window.prompt("Comment content");
+    if (selectedText && content) {
+      await client.models.Comment.create({
+        transcriptText: selectedText,
+        content,
+      });
+      listComments(); // Refresh comments after creation
+    }
+  }
+
+  function generateSummary() {
+    const generatedSummary = "Generated summary of the transcript and associated comments";
+    setSummary(generatedSummary);
+  }
+
+  function handleTextSelection() {
+    const selected = window.getSelection()?.toString();
+    setSelectedText(selected || null);
   }
 
   useEffect(() => {
-    listTodos();
+    listComments();
   }, []);
-
-  function createTodo() {
-    client.models.Todo.create({
-      content: window.prompt("Todo content"),
-    });
-  }
 
   return (
     <Authenticator>
       {({ signOut, user }) => (
-        <main>
-          <h1>My todos</h1>
-          <button onClick={createTodo}>+ new</button>
+        <main onMouseUp={handleTextSelection}>
+          <h1>Sales Transcript</h1>
+          <div className="transcript-container">
+            <p className="transcript-text">{transcript}</p>
+          </div>
+          <button onClick={createComment} disabled={!selectedText}>Add Comment</button>
+          <h2>Comments</h2>
           <ul>
-            {todos.map((todo) => (
-              
-              <li 
-              onClick={() => deleteTodo(todo.id)}
-              key={todo.id}>{todo.content}</li>
+            {comments.map((comment) => (
+              <li key={comment.id}>
+                <p>{comment.transcriptText}</p>
+                <p>{comment.content}</p>
+                <button onClick={() => deleteComment(comment.id)}>Delete</button>
+              </li>
             ))}
           </ul>
-          <div>
-            🥳 App successfully hosted. Try creating a new todo.
-            <br />
-            <a href="https://docs.amplify.aws/nextjs/start/quickstart/nextjs-app-router-client-components/">
-              Review next steps of this tutorial.
-            </a>
-          </div>
+          <h2>Summary</h2>
+          <button onClick={generateSummary}>Generate Summary</button>
+          <p>{summary}</p>
           <button onClick={signOut}>Sign out</button>
         </main>
       )}
