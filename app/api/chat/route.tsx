@@ -36,7 +36,7 @@ Your goal is to help sales representatives deliver more effective, customer-focu
 
 const openai = new OpenAI({
 	baseURL: 'https://openrouter.ai/api/v1',
-	apiKey: process.env.MY_API_KEY,
+	apiKey: process.env.REACT_APP_GPT_API_KEY,
 })
 
 async function main(data: Array<MessageParam>): Promise<any> {
