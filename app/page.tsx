@@ -189,7 +189,7 @@ export default function App() {
           };
           input.click();
         } else {
-          updateComment(id, newContent, newAttachedFile);
+          updateComment(id, newContent, newAttachedFile ?? null);
         }
       }
     }
