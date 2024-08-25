@@ -1,5 +1,7 @@
 ## AWS Amplify Next.js (App Router) Starter Template
 
+Website: https://main.d4q1rgg2z9tw4.amplifyapp.com/
+
 This repository provides a starter template for creating applications using Next.js (App Router) and AWS Amplify, emphasizing easy setup for authentication, API, and database capabilities.
 
 ## Overview
