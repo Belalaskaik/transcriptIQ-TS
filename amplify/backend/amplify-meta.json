@@ -12,15 +12,44 @@
       "AmplifyAppId": "d32mnaw7ln5xpv"
     }
   },
+  "function": {
+    "salesCommentsTrigger482f9389": {
+      "build": true,
+      "dependsOn": [
+        {
+          "attributes": [
+            "Name",
+            "Arn",
+            "StreamArn"
+          ],
+          "category": "storage",
+          "resourceName": "salesComments"
+        }
+      ],
+      "providerPlugin": "awscloudformation",
+      "service": "Lambda",
+      "output": {
+        "LambdaExecutionRoleArn": "arn:aws:iam::396608790714:role/salesCommentsLambdaRole482f9389-dev",
+        "Region": "us-west-1",
+        "Arn": "arn:aws:lambda:us-west-1:396608790714:function:salesCommentsTrigger482f9389-dev",
+        "Name": "salesCommentsTrigger482f9389-dev",
+        "LambdaExecutionRole": "salesCommentsLambdaRole482f9389-dev"
+      },
+      "lastPushTimeStamp": "2024-08-25T03:54:23.307Z",
+      "providerMetadata": {
+        "s3TemplateURL": "https://s3.amazonaws.com/amplify-transcriptiq-dev-5df5e-deployment/amplify-cfn-templates/function/salesCommentsTrigger482f9389-cloudformation-template.json",
+        "logicalId": "functionsalesCommentsTrigger482f9389"
+      },
+      "s3Bucket": {
+        "deploymentBucketName": "amplify-transcriptiq-dev-5df5e-deployment",
+        "s3Key": "amplify-builds/salesCommentsTrigger482f9389-6f5832465367586a494a-build.zip"
+      }
+    }
+  },
   "storage": {
     "dynamo4ee082e0": {
-      "service": "DynamoDB",
       "providerPlugin": "awscloudformation",
-      "providerMetadata": {
-        "s3TemplateURL": "https://s3.amazonaws.com/amplify-transcriptiq-dev-5df5e-deployment/amplify-cfn-templates/storage/dynamo4ee082e0-cloudformation-template.json",
-        "logicalId": "storagedynamo4ee082e0"
-      },
-      "lastPushTimeStamp": "2024-08-24T23:15:11.324Z",
+      "service": "DynamoDB",
       "output": {
         "PartitionKeyName": "transcriptId",
         "SortKeyName": "commentId",
@@ -31,16 +60,15 @@
         "PartitionKeyType": "S",
         "Name": "CommentsTable-dev"
       },
-      "lastPushDirHash": "82oYFjsKxNqmFCLwxks1KO4UIHI="
+      "lastPushTimeStamp": "2024-08-25T03:54:23.313Z",
+      "providerMetadata": {
+        "s3TemplateURL": "https://s3.amazonaws.com/amplify-transcriptiq-dev-5df5e-deployment/amplify-cfn-templates/storage/dynamo4ee082e0-cloudformation-template.json",
+        "logicalId": "storagedynamo4ee082e0"
+      }
     },
     "salesComments": {
-      "service": "DynamoDB",
       "providerPlugin": "awscloudformation",
-      "providerMetadata": {
-        "s3TemplateURL": "https://s3.amazonaws.com/amplify-transcriptiq-dev-5df5e-deployment/amplify-cfn-templates/storage/salesComments-cloudformation-template.json",
-        "logicalId": "storagesalesComments"
-      },
-      "lastPushTimeStamp": "2024-08-24T23:15:11.324Z",
+      "service": "DynamoDB",
       "output": {
         "PartitionKeyName": "transcriptId",
         "SortKeyName": "commentId",
@@ -51,46 +79,11 @@
         "PartitionKeyType": "S",
         "Name": "salesComments-table-dev"
       },
-      "lastPushDirHash": "iQv452BGa9S5ZOTzDZcP6TKrQkQ="
-    }
-  },
-  "function": {
-    "salesCommentsTrigger482f9389": {
-      "service": "Lambda",
-      "providerPlugin": "awscloudformation",
-      "build": true,
-      "dependsOn": [
-        {
-          "category": "storage",
-          "resourceName": "salesComments",
-          "attributes": [
-            "Name",
-            "Arn",
-            "StreamArn"
-          ]
-        }
-      ],
-      "lastPushTimeStamp": "2024-08-24T23:15:11.324Z",
-      "lastBuildTimeStamp": "2024-08-24T23:13:35.944Z",
-      "lastBuildType": "PROD",
-      "lastPackageTimeStamp": "2024-08-24T23:13:36.037Z",
-      "distZipFilename": "salesCommentsTrigger482f9389-6f5832465367586a494a-build.zip",
-      "s3Bucket": {
-        "deploymentBucketName": "amplify-transcriptiq-dev-5df5e-deployment",
-        "s3Key": "amplify-builds/salesCommentsTrigger482f9389-6f5832465367586a494a-build.zip"
-      },
+      "lastPushTimeStamp": "2024-08-25T03:54:23.374Z",
       "providerMetadata": {
-        "s3TemplateURL": "https://s3.amazonaws.com/amplify-transcriptiq-dev-5df5e-deployment/amplify-cfn-templates/function/salesCommentsTrigger482f9389-cloudformation-template.json",
-        "logicalId": "functionsalesCommentsTrigger482f9389"
-      },
-      "output": {
-        "LambdaExecutionRoleArn": "arn:aws:iam::396608790714:role/salesCommentsLambdaRole482f9389-dev",
-        "Region": "us-west-1",
-        "Arn": "arn:aws:lambda:us-west-1:396608790714:function:salesCommentsTrigger482f9389-dev",
-        "Name": "salesCommentsTrigger482f9389-dev",
-        "LambdaExecutionRole": "salesCommentsLambdaRole482f9389-dev"
-      },
-      "lastPushDirHash": "akEyu7a0HLqeZuL9Pb84AWIlI6Q="
+        "s3TemplateURL": "https://s3.amazonaws.com/amplify-transcriptiq-dev-5df5e-deployment/amplify-cfn-templates/storage/salesComments-cloudformation-template.json",
+        "logicalId": "storagesalesComments"
+      }
     }
   }
 }
