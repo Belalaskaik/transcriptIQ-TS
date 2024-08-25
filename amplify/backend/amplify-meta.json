@@ -1,0 +1,96 @@
+{
+  "providers": {
+    "awscloudformation": {
+      "AuthRoleName": "amplify-transcriptiq-dev-5df5e-authRole",
+      "UnauthRoleArn": "arn:aws:iam::396608790714:role/amplify-transcriptiq-dev-5df5e-unauthRole",
+      "AuthRoleArn": "arn:aws:iam::396608790714:role/amplify-transcriptiq-dev-5df5e-authRole",
+      "Region": "us-west-1",
+      "DeploymentBucketName": "amplify-transcriptiq-dev-5df5e-deployment",
+      "UnauthRoleName": "amplify-transcriptiq-dev-5df5e-unauthRole",
+      "StackName": "amplify-transcriptiq-dev-5df5e",
+      "StackId": "arn:aws:cloudformation:us-west-1:396608790714:stack/amplify-transcriptiq-dev-5df5e/39bc79b0-6200-11ef-86a2-06e6eb43d023",
+      "AmplifyAppId": "d32mnaw7ln5xpv"
+    }
+  },
+  "storage": {
+    "dynamo4ee082e0": {
+      "service": "DynamoDB",
+      "providerPlugin": "awscloudformation",
+      "providerMetadata": {
+        "s3TemplateURL": "https://s3.amazonaws.com/amplify-transcriptiq-dev-5df5e-deployment/amplify-cfn-templates/storage/dynamo4ee082e0-cloudformation-template.json",
+        "logicalId": "storagedynamo4ee082e0"
+      },
+      "lastPushTimeStamp": "2024-08-24T23:15:11.324Z",
+      "output": {
+        "PartitionKeyName": "transcriptId",
+        "SortKeyName": "commentId",
+        "SortKeyType": "S",
+        "Region": "us-west-1",
+        "Arn": "arn:aws:dynamodb:us-west-1:396608790714:table/CommentsTable-dev",
+        "StreamArn": "arn:aws:dynamodb:us-west-1:396608790714:table/CommentsTable-dev/stream/2024-08-24T23:13:44.997",
+        "PartitionKeyType": "S",
+        "Name": "CommentsTable-dev"
+      },
+      "lastPushDirHash": "82oYFjsKxNqmFCLwxks1KO4UIHI="
+    },
+    "salesComments": {
+      "service": "DynamoDB",
+      "providerPlugin": "awscloudformation",
+      "providerMetadata": {
+        "s3TemplateURL": "https://s3.amazonaws.com/amplify-transcriptiq-dev-5df5e-deployment/amplify-cfn-templates/storage/salesComments-cloudformation-template.json",
+        "logicalId": "storagesalesComments"
+      },
+      "lastPushTimeStamp": "2024-08-24T23:15:11.324Z",
+      "output": {
+        "PartitionKeyName": "transcriptId",
+        "SortKeyName": "commentId",
+        "SortKeyType": "S",
+        "Region": "us-west-1",
+        "Arn": "arn:aws:dynamodb:us-west-1:396608790714:table/salesComments-table-dev",
+        "StreamArn": "arn:aws:dynamodb:us-west-1:396608790714:table/salesComments-table-dev/stream/2024-08-24T23:13:45.429",
+        "PartitionKeyType": "S",
+        "Name": "salesComments-table-dev"
+      },
+      "lastPushDirHash": "iQv452BGa9S5ZOTzDZcP6TKrQkQ="
+    }
+  },
+  "function": {
+    "salesCommentsTrigger482f9389": {
+      "service": "Lambda",
+      "providerPlugin": "awscloudformation",
+      "build": true,
+      "dependsOn": [
+        {
+          "category": "storage",
+          "resourceName": "salesComments",
+          "attributes": [
+            "Name",
+            "Arn",
+            "StreamArn"
+          ]
+        }
+      ],
+      "lastPushTimeStamp": "2024-08-24T23:15:11.324Z",
+      "lastBuildTimeStamp": "2024-08-24T23:13:35.944Z",
+      "lastBuildType": "PROD",
+      "lastPackageTimeStamp": "2024-08-24T23:13:36.037Z",
+      "distZipFilename": "salesCommentsTrigger482f9389-6f5832465367586a494a-build.zip",
+      "s3Bucket": {
+        "deploymentBucketName": "amplify-transcriptiq-dev-5df5e-deployment",
+        "s3Key": "amplify-builds/salesCommentsTrigger482f9389-6f5832465367586a494a-build.zip"
+      },
+      "providerMetadata": {
+        "s3TemplateURL": "https://s3.amazonaws.com/amplify-transcriptiq-dev-5df5e-deployment/amplify-cfn-templates/function/salesCommentsTrigger482f9389-cloudformation-template.json",
+        "logicalId": "functionsalesCommentsTrigger482f9389"
+      },
+      "output": {
+        "LambdaExecutionRoleArn": "arn:aws:iam::396608790714:role/salesCommentsLambdaRole482f9389-dev",
+        "Region": "us-west-1",
+        "Arn": "arn:aws:lambda:us-west-1:396608790714:function:salesCommentsTrigger482f9389-dev",
+        "Name": "salesCommentsTrigger482f9389-dev",
+        "LambdaExecutionRole": "salesCommentsLambdaRole482f9389-dev"
+      },
+      "lastPushDirHash": "akEyu7a0HLqeZuL9Pb84AWIlI6Q="
+    }
+  }
+}
