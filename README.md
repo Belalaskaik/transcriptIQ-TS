@@ -95,7 +95,7 @@ The Sales Transcript Annotator and Summary Tool is a powerful application design
 
 ### AI Integration
 
-- **AWS SageMaker or GPT API**: Used for generating concise summaries of transcripts and associated comments.
+- **GPT API (Llama)**: Used for generating concise summaries of transcripts and associated comments.
 
 ## Future Enhancements
 
