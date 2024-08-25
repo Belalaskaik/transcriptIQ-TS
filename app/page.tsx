@@ -2,153 +2,69 @@
 
 import * as React from 'react';
 import { useEffect, useState } from 'react';
-import { Box, Stack, Link, Container, Typography } from "@mui/material";
-import Image from "next/image";
+import { Box, Stack, Container, Typography, Button } from "@mui/material";
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import "./../app/app.css";
 
-const defaultTheme = createTheme();
+const defaultTheme = createTheme({
+  palette: {
+    primary: {
+      main: '#4e9af1',
+    },
+    secondary: {
+      main: '#ffffff',
+    },
+  },
+  typography: {
+    fontFamily: '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif',
+    h2: {
+      fontWeight: 700,
+    },
+    h5: {
+      fontWeight: 300,
+    },
+  },
+});
 
 const words = ["Sales Transcript Analysis", "AI-Powered Summaries", "Manage Comments Easily"];
 
 export default function App() {
   return (
     <ThemeProvider theme={defaultTheme}>
-      <Container component="main" maxWidth="xs">
+      <Container component="main" maxWidth="md" sx={{ padding: 4, minHeight: '100vh', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
         <Stack
-          width={"100%"}
-          height={"60px"}
-          direction={"row"}
-          gap={2}
-          padding={1}
-          fontSize={15}
-          justifyContent="space-between"
+          width="100%"
+          maxWidth="800px"
+          bgcolor="rgba(255, 255, 255, 0.1)"
+          borderRadius={4}
+          padding={5}
+          boxShadow="0px 8px 15px rgba(0, 0, 0, 0.3)"
+          textAlign="center"
         >
-          <Stack
-            height={"40px"}
-            width={"10%"}
-            bgcolor={"#000000"}
-            borderRadius={2}
-            justifyContent={"center"}
-            alignItems={"center"}
-            direction={"row"}
-            gap={1}
-            paddingX={1}
+          <Typography
+            variant="h2"
+            component="div"
+            color="secondary.main"
+            gutterBottom
           >
-            <Stack width={"20%"}>
-              <Image src={"/logo2.png"} alt="logo" width={30} height={30} />
-            </Stack>
-            <Stack
-              height={"100%"}
-              width={"80%"}
-              color={"white"}
-              justifyContent={"center"}
-              alignItems={"center"}
-              textAlign={"center"}
-            >
-              SalesTranscriptAI
-            </Stack>
-          </Stack>
-          <Stack
-            direction="row"
-            height={"40px"}
-            gap={2}
-            alignItems={"center"}
+            Sales Transcript AI
+          </Typography>
+          <Typography
+            variant="h5"
+            component="div"
+            color="secondary.main"
+            gutterBottom
           >
-            <Stack
-              height={"100%"}
-              width={"100px"}
-              bgcolor={"#000000"}
-              borderRadius={2}
-              justifyContent={"center"}
-              alignItems={"center"}
-              color={"white"}
-              sx={{
-                "&:hover": {
-                  backgroundColor: "white",
-                  color: "black",
-                },
-              }}
-            >
-              <Link href="/">Home</Link>
-            </Stack>
-            <Stack
-              height={"100%"}
-              width={"100px"}
-              bgcolor={"#000000"}
-              borderRadius={2}
-              justifyContent={"center"}
-              alignItems={"center"}
-              color={"white"}
-              sx={{
-                "&:hover": {
-                  backgroundColor: "white",
-                  color: "black",
-                },
-              }}
-            >
-              <Link href="/chat">Get Started</Link>
-            </Stack>
-          </Stack>
-        </Stack>
-
-        <Stack
-          width={"100%"}
-          height={"100vh"}
-          justifyContent={"center"}
-          alignItems={"center"}
-        >
-          <Stack
-            width={"100%"}
-            maxWidth={"600px"}
-            height={"auto"}
-            bgcolor={"black"}
-            justifyContent={"center"}
-            alignItems={"center"}
-            borderRadius={2}
-            padding={4}
-            spacing={2}
+            <FlipWords words={words} />
+          </Typography>
+          <Button
+            variant="contained"
+            color="primary"
+            href="/chat"
+            sx={{ marginTop: 3, paddingX: 5, paddingY: 1.5 }}
           >
-            <Typography
-              variant="h2"
-              component="div"
-              color="white"
-              textAlign="center"
-              fontWeight={900}
-            >
-              Sales Transcript AI
-            </Typography>
-            <Typography
-              variant="h5"
-              component="div"
-              color="white"
-              textAlign="center"
-              fontWeight={200}
-            >
-              <FlipWords words={words} />
-            </Typography>
-            <Stack
-              bgcolor={"white"}
-              color={"black"}
-              width={140}
-              height={40}
-              justifyContent={"center"}
-              alignItems={"center"}
-              borderRadius={2}
-              sx={{
-                "&:hover": {
-                  backgroundColor: "black",
-                  color: "white",
-                  border: 2,
-                  borderColor: "white",
-                },
-              }}
-            >
-              <Link href="/chat" color="inherit" underline="none">
-                Get Started
-              </Link>
-            </Stack>
-          </Stack>
+            Get Started
+          </Button>
         </Stack>
       </Container>
     </ThemeProvider>
