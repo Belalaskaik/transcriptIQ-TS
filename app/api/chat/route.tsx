@@ -56,3 +56,4 @@ export async function POST(req: NextRequest): Promise<NextResponse> {
 	const res = await main(data)
 	return NextResponse.json(res)
 }
+export default { GET, POST }
