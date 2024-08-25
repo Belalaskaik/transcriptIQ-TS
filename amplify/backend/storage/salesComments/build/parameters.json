@@ -1,7 +1,0 @@
-{
-  "tableName": "salesComments-table",
-  "partitionKeyName": "transcriptId",
-  "partitionKeyType": "S",
-  "sortKeyName": "commentId",
-  "sortKeyType": "S"
-}
