@@ -1,0 +1,16 @@
+{
+  "resourceName": "salesComments",
+  "tableName": "salesComments-table",
+  "partitionKey": {
+    "fieldName": "transcriptId",
+    "fieldType": "string"
+  },
+  "sortKey": {
+    "fieldName": "commentId",
+    "fieldType": "string"
+  },
+  "gsi": [],
+  "triggerFunctions": [
+    "salesCommentsTrigger482f9389"
+  ]
+}

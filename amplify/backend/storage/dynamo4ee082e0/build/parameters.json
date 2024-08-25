@@ -1,0 +1,7 @@
+{
+  "tableName": "CommentsTable",
+  "partitionKeyName": "transcriptId",
+  "partitionKeyType": "S",
+  "sortKeyName": "commentId",
+  "sortKeyType": "S"
+}

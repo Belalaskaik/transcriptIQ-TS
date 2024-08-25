@@ -1,0 +1,48 @@
+{
+  "function": {
+    "salesCommentsTrigger482f9389": {
+      "build": true,
+      "dependsOn": [
+        {
+          "attributes": [
+            "Name",
+            "Arn",
+            "StreamArn"
+          ],
+          "category": "storage",
+          "resourceName": "salesComments"
+        }
+      ],
+      "providerPlugin": "awscloudformation",
+      "service": "Lambda"
+    }
+  },
+  "parameters": {
+    "AMPLIFY_function_salesCommentsTrigger482f9389_deploymentBucketName": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "salesCommentsTrigger482f9389"
+        }
+      ]
+    },
+    "AMPLIFY_function_salesCommentsTrigger482f9389_s3Key": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "salesCommentsTrigger482f9389"
+        }
+      ]
+    }
+  },
+  "storage": {
+    "dynamo4ee082e0": {
+      "providerPlugin": "awscloudformation",
+      "service": "DynamoDB"
+    },
+    "salesComments": {
+      "providerPlugin": "awscloudformation",
+      "service": "DynamoDB"
+    }
+  }
+}
