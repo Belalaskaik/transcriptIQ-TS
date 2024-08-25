@@ -2,25 +2,54 @@ html, body {
   margin: 0;
   padding: 0;
   width: 100%;
+  height: 100%;
   overflow-x: hidden;
 }
 
 body {
-  background: linear-gradient(180deg, rgb(117, 81, 194), rgb(255, 255, 255));
+  background: linear-gradient(135deg, #6a11cb, #2575fc); /* Purple to blue gradient background */
   display: flex;
   font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
-  height: 100vh;
-  width: 100vw;
   justify-content: center;
   align-items: center;
+  color: white; /* Set default text color to white */
 }
 
 main {
   display: flex;
   flex-direction: column;
   align-items: stretch;
-  max-width: 800px;
-  margin: auto;
+  max-width: 100%; /* Make sure main takes full width */
+  height: 100vh; /* Make sure main takes full height */
+  margin: 0;
+  color: inherit; /* Inherit white text color from body */
+}
+
+.content-container {
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start;
+  width: 100%;
+  height: 100%;
+}
+
+.transcript-container, .comments-container, .chat-container {
+  padding: 10px;
+  border-radius: 8px;
+  margin-right: 10px;
+  background: linear-gradient(135deg, #2575fc, #6a11cb); /* Blue to purple gradient */
+  color: white; /* Ensure text is visible */
+}
+
+.transcript-container {
+  width: 50%;
+}
+
+.right-container {
+  display: flex;
+  flex-direction: column;
+  width: 50%;
+  gap: 20px;
 }
 
 button {
@@ -36,14 +65,17 @@ button {
   color: white;
   margin: 10px 0;
 }
+
 button:hover {
   background-color: #333333;
   border-color: #646cff;
 }
+
 button:focus,
 button:focus-visible {
   outline: 4px auto -webkit-focus-ring-color;
 }
+
 button:disabled {
   background-color: #666666;
   cursor: not-allowed;
@@ -67,32 +99,31 @@ ul {
 li {
   background-color: white;
   padding: 8px;
+  color: black; /* Ensure text in list items is visible on white background */
 }
 
 li:hover {
   background: #dadbf9;
 }
 
-.transcript-container {
-  margin-bottom: 20px;
-}
-
 .transcript-text {
   white-space: pre-wrap;
-  border: 1px solid #ccc;
+  border: 1px solid #333333; /* Adjust border color for better contrast */
   padding: 10px;
   margin-bottom: 10px;
-  background-color: #f9f9f9;
+  background-color: rgba(255, 255, 255, 0.1); /* Slightly transparent to blend with gradient */
   min-height: 300px;
   max-height: 500px;
   overflow-y: auto;
   position: relative;
+  color: white; /* Ensure text color is white */
 }
 
 .highlighted-text {
   background-color: #ffff00;
   cursor: pointer;
   position: relative;
+  color: black; /* Ensure highlighted text is visible */
 }
 
 .comment-indicator {
@@ -134,17 +165,15 @@ li:hover {
   font-size: 1em;
   line-height: 1.5;
   resize: vertical;
-}
-
-.comments-container {
-  margin-bottom: 20px;
+  color: black; /* Ensure text is visible during editing */
 }
 
 .comment-item {
-  background-color: #f0f0f0;
+  background-color: rgba(255, 255, 255, 0.1); /* Match background with slight transparency */
   padding: 10px;
   margin-bottom: 10px;
   border-radius: 4px;
+  color: white; /* Comment text color */
 }
 
 .comment-item h3 {
@@ -154,7 +183,7 @@ li:hover {
 
 .comment-item p:nth-child(2) {
   font-style: italic;
-  color: #666;
+  color: #dddddd; /* Slightly lighter for contrast */
 }
 
 .comment-actions {
@@ -175,36 +204,15 @@ li:hover {
   background-color: #333333;
 }
 
-.transcript-container {
-  border: 1px solid #1a1a1a;
-  padding: 10px;
-  border-radius: 8px;
-  margin-bottom: 20px;
-  background-color: #f5f5f5;
-}
-
-.transcript-text {
-  font-size: 1.1em;
-  line-height: 1.5;
-  color: #333;
-}
-
 h1, h2 {
-  color: #1a1a1a;
+  color: white;
   margin-bottom: 10px;
 }
 
 a {
   font-weight: 800;
   text-decoration: none;
-}
-
-.chat-container {
-  border: 1px solid #1a1a1a;
-  padding: 10px;
-  border-radius: 8px;
-  margin-top: 20px;
-  background-color: #f5f5f5;
+  color: white; /* Ensure links are white */
 }
 
 .chat-messages {
@@ -212,24 +220,28 @@ a {
   overflow-y: auto;
   margin-bottom: 10px;
   padding: 10px;
-  background-color: white;
+  background-color: rgba(255, 255, 255, 0.1); /* Match background with slight transparency */
   border-radius: 4px;
+  color: white; /* Ensure chat messages are white */
 }
 
 .message {
   margin-bottom: 10px;
   padding: 5px 10px;
   border-radius: 4px;
+  color: white; /* Ensure message text is white */
 }
 
 .message.user {
   background-color: #e6f2ff;
   text-align: right;
+  color: black; /* User message text color */
 }
 
 .message.assistant {
   background-color: #f0f0f0;
   text-align: left;
+  color: black; /* Assistant message text color */
 }
 
 .chat-input {
@@ -240,11 +252,12 @@ a {
   flex-grow: 1;
   padding: 5px;
   margin-right: 10px;
+  color: black; /* Chat input text color */
 }
 
 .file-upload {
   margin-bottom: 10px;
-  color:#ffffff;
+  color: white;
 }
 
 .file-upload button {
@@ -254,7 +267,7 @@ a {
   border: 1px solid #000000;
   border-radius: 4px;
   cursor: pointer;
-  color:#ffffff;
+  color: white;
 }
 
 .file-upload button:hover {
@@ -272,8 +285,33 @@ a {
   padding: 10px;
   margin-bottom: 10px;
   border-radius: 4px;
+  color: white;
 }
 
 .saved-transcript p {
   margin-bottom: 10px;
+}
+
+.instructions-container {
+  padding: 10px;
+  margin-top: 20px;
+  border-radius: 8px;
+  background: linear-gradient(135deg, #2575fc, #6a11cb); /* Blue to purple gradient */
+  color: white; /* Ensure text is visible */
+}
+
+.instructions-container h2 {
+  margin-top: 0;
+  margin-bottom: 10px;
+  color: white;
+}
+
+.instructions-container p {
+  margin: 5px 0;
+}
+
+.comment-tooltip a {
+  color: #ffffff;
+  text-decoration: underline;
+  margin-top: 5px;
 }
