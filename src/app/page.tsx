@@ -35,15 +35,20 @@ export default function App() {
     });
   }
 
+  async function handleTranscript() {
+    const response = await client.queries.handleTranscript({ transcriptId: "12345" });
+    alert(response);
+  }
+
   return (
     <Authenticator>
       {({ signOut, user }) => (
         <main>
           <h1>{user?.signInDetails?.loginId}'s todos</h1>
           <button onClick={createTodo}>+ new</button>
+          <button onClick={handleTranscript}>Handle Transcript</button>
           <ul>
             {todos.map((todo) => (
-              
               <li 
               onClick={() => deleteTodo(todo.id)}
               key={todo.id}>{todo.content}</li>
