@@ -1,10 +1,13 @@
 import { defineBackend } from '@aws-amplify/backend';
 import { auth } from './auth/resource.js';
 import { data } from './data/resource.js';
-import { storage } from './storage/resource';
+import { commentsAndSummariesBucket, attachmentsBucket} from './storage/resource';
+import { transcriptHandler } from './functions/transcriptHandler/resource';
 
 defineBackend({
   auth,
   data,
-  storage
+  commentsAndSummariesBucket,
+  attachmentsBucket,
+  transcriptHandler
 });
