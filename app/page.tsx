@@ -23,6 +23,7 @@ type Comment = {
   content: string;
   startIndex: number;
   endIndex: number;
+  attachedFile?: File | null;
 };
 
 export default function App() {
@@ -120,7 +121,7 @@ export default function App() {
 
   const handleTextSelection = () => {
     if (isEditing) return;
-    
+
     const selection = window.getSelection();
     if (selection && selection.rangeCount > 0) {
       const range = selection.getRangeAt(0);
@@ -136,38 +137,75 @@ export default function App() {
 
   const addComment = () => {
     if (selectedText && selectedRange) {
-      const newComment: Comment = {
-        id: Date.now().toString(),
-        content: window.prompt("Enter your comment:") || "",
-        startIndex: selectedRange.start,
-        endIndex: selectedRange.end,
-      };
-      setComments([...comments, newComment]);
-      setSelectedText(null);
-      setSelectedRange(null);
+      const content = window.prompt("Enter your comment:") || "";
+      let attachedFile: File | null = null;
+
+      if (window.confirm("Would you like to attach a file?")) {
+        const input = document.createElement("input");
+        input.type = "file";
+        input.accept = "*";
+        input.onchange = (event) => {
+          const file = (event.target as HTMLInputElement).files?.[0] || null;
+          attachedFile = file;
+          finalizeComment(content, attachedFile);
+        };
+        input.click();
+      } else {
+        finalizeComment(content, attachedFile);
+      }
     }
+  };
+
+  const finalizeComment = (content: string, attachedFile: File | null) => {
+    const newComment: Comment = {
+      id: Date.now().toString(),
+      content,
+      startIndex: selectedRange!.start,
+      endIndex: selectedRange!.end,
+      attachedFile,
+    };
+
+    setComments([...comments, newComment]);
+    setSelectedText(null);
+    setSelectedRange(null);
   };
 
   const editComment = (id: string) => {
     const commentToEdit = comments.find(comment => comment.id === id);
     if (commentToEdit) {
       const newContent = window.prompt("Edit your comment:", commentToEdit.content);
+      let newAttachedFile = commentToEdit.attachedFile;
+
       if (newContent !== null) {
-        setComments(comments.map(comment => 
-          comment.id === id ? { ...comment, content: newContent } : comment
-        ));
+        const changeFile = window.confirm("Do you want to change the attached file?");
+        if (changeFile) {
+          const input = document.createElement("input");
+          input.type = "file";
+          input.accept = "*";
+          input.onchange = (event) => {
+            const file = (event.target as HTMLInputElement).files?.[0] || null;
+            newAttachedFile = file;
+            updateComment(id, newContent, newAttachedFile);
+          };
+          input.click();
+        } else {
+          updateComment(id, newContent, newAttachedFile);
+        }
       }
     }
+  };
+
+  const updateComment = (id: string, content: string, attachedFile: File | null) => {
+    setComments(comments.map(comment =>
+      comment.id === id ? { ...comment, content, attachedFile } : comment
+    ));
   };
 
   const deleteComment = (id: string) => {
     setComments(comments.filter(comment => comment.id !== id));
   };
 
-  const listComments = () => {
-    // In a real application, you would fetch comments from a database here
-    // For now, we'll just use the local state
-  };
+  const listComments = () => {};
 
   const renderTranscriptWithComments = () => {
     if (isEditing) {
@@ -182,32 +220,41 @@ export default function App() {
 
     let result = [];
     let lastIndex = 0;
-    
-    // Sort comments by startIndex
+
     const sortedComments = [...comments].sort((a, b) => a.startIndex - b.startIndex);
 
     for (let i = 0; i < sortedComments.length; i++) {
       const comment = sortedComments[i];
-      // Add text before the comment
       result.push(transcript.slice(lastIndex, comment.startIndex));
-      
-      // Add the commented text with highlighting and comment number
+
       result.push(
-        <span 
-          key={comment.id} 
-          className="highlighted-text" 
+        <span
+          key={comment.id}
+          className="highlighted-text"
           data-comment-id={comment.id}
         >
           {transcript.slice(comment.startIndex, comment.endIndex)}
           <sup className="comment-indicator">{i + 1}</sup>
-          <span className="comment-tooltip">{comment.content}</span>
+          <span className="comment-tooltip">
+            {comment.content}
+            {comment.attachedFile && (
+              <a
+                href={URL.createObjectURL(comment.attachedFile)}
+                download={comment.attachedFile.name}
+                target="_blank"
+                rel="noopener noreferrer"
+                style={{ display: 'block', color: '#ffffff', marginTop: '5px' }}
+              >
+                Open Attached File
+              </a>
+            )}
+          </span>
         </span>
       );
-      
+
       lastIndex = comment.endIndex;
     }
-    
-    // Add any remaining text
+
     result.push(transcript.slice(lastIndex));
 
     return result;
@@ -216,7 +263,6 @@ export default function App() {
   const toggleEditing = () => {
     setIsEditing(!isEditing);
     if (isEditing) {
-      // If we're finishing editing, re-analyze the transcript
       sendTranscriptToAI(transcript);
     }
   };
@@ -225,69 +271,94 @@ export default function App() {
     <Authenticator>
       {({ signOut, user }) => (
         <main className="main-container">
-          <div className="transcript-container">
-            <h1>Sales Transcript</h1>
-            <div className="file-upload">
-              <input
-                type="file"
-                accept=".txt"
-                onChange={handleFileUpload}
-                ref={fileInputRef}
-                style={{ display: 'none' }}
-              />
-              <button onClick={() => fileInputRef.current?.click()} disabled={isChatLoading}>
-                Upload Transcript
+          <div className="content-container">
+            <div className="transcript-container">
+              <h1>Sales Transcript</h1>
+              <div className="file-upload">
+                <input
+                  type="file"
+                  accept=".txt"
+                  onChange={handleFileUpload}
+                  ref={fileInputRef}
+                  style={{ display: 'none' }}
+                />
+                <button onClick={() => fileInputRef.current?.click()} disabled={isChatLoading}>
+                  Upload Transcript
+                </button>
+              </div>
+              <div 
+                className="transcript-text" 
+                onMouseUp={handleTextSelection}
+                ref={transcriptRef}
+              >
+                {renderTranscriptWithComments()}
+              </div>
+              <button onClick={toggleEditing}>
+                {isEditing ? 'Save Edits' : 'Edit Transcript'}
               </button>
+              <button onClick={addComment} disabled={!selectedText || isEditing}>Add Comment</button>
+              
+              <div className="instructions-container">
+                <h2>Instructions</h2>
+                <p>1. Upload a sales transcript using the "Upload Transcript" button.</p>
+                <p>2. Highlight text in the transcript to add comments.</p>
+                <p>3. After adding a comment, choose whether to attach a file.</p>
+                <p>4. Use the buttons to edit or delete comments.</p>
+                <p>5. Analyze the transcript by interacting with the AI in the chat.</p>
+              </div>
             </div>
-            <div 
-              className="transcript-text" 
-              onMouseUp={handleTextSelection}
-              ref={transcriptRef}
-            >
-              {renderTranscriptWithComments()}
-            </div>
-            <button onClick={toggleEditing}>
-              {isEditing ? 'Save Edits' : 'Edit Transcript'}
-            </button>
-            <button onClick={addComment} disabled={!selectedText || isEditing}>Add Comment</button>
-          </div>
-          <div className="comments-container">
-            <h2>Comments</h2>
-            <ul>
-              {comments.map((comment, index) => (
-                <li key={comment.id} className="comment-item">
-                  <h3>Comment {index + 1}</h3>
-                  <p>"{transcript.slice(comment.startIndex, comment.endIndex)}"</p>
-                  <p>{comment.content}</p>
-                  <div className="comment-actions">
-                    <button onClick={() => editComment(comment.id)}>Edit</button>
-                    <button onClick={() => deleteComment(comment.id)}>Delete</button>
-                  </div>
-                </li>
-              ))}
-            </ul>
-          </div>
-          <div className="chat-container">
-            <h2>AI Analysis</h2>
-            <div className="chat-messages">
-              {chatMessages.map((message, index) => (
-                <div key={index} className={`message ${message.role}`}>
-                  {message.content}
+            <div className="right-container">
+              <div className="comments-container">
+                <h2>Comments</h2>
+                <ul>
+                  {comments.map((comment, index) => (
+                    <li key={comment.id} className="comment-item">
+                      <h3>Comment {index + 1}</h3>
+                      <p>"{transcript.slice(comment.startIndex, comment.endIndex)}"</p>
+                      <p>{comment.content}</p>
+                      {comment.attachedFile && (
+                        <p>
+                          <a
+                            href={URL.createObjectURL(comment.attachedFile)}
+                            download={comment.attachedFile.name}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                          >
+                            Open Attached File: {comment.attachedFile.name}
+                          </a>
+                        </p>
+                      )}
+                      <div className="comment-actions">
+                        <button onClick={() => editComment(comment.id)}>Edit</button>
+                        <button onClick={() => deleteComment(comment.id)}>Delete</button>
+                      </div>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+              <div className="chat-container">
+                <h2>AI Analysis</h2>
+                <div className="chat-messages">
+                  {chatMessages.map((message, index) => (
+                    <div key={index} className={`message ${message.role}`}>
+                      {message.content}
+                    </div>
+                  ))}
                 </div>
-              ))}
-            </div>
-            <div className="chat-input">
-              <input
-                type="text"
-                value={chatInput}
-                onChange={(e) => setChatInput(e.target.value)}
-                onKeyPress={(e) => e.key === 'Enter' && sendChatMessage()}
-                placeholder="Ask a question about the transcript..."
-                disabled={isChatLoading}
-              />
-              <button onClick={sendChatMessage} disabled={isChatLoading}>
-                {isChatLoading ? 'Sending...' : 'Send'}
-              </button>
+                <div className="chat-input">
+                  <input
+                    type="text"
+                    value={chatInput}
+                    onChange={(e) => setChatInput(e.target.value)}
+                    onKeyPress={(e) => e.key === 'Enter' && sendChatMessage()}
+                    placeholder="Ask a question about the transcript..."
+                    disabled={isChatLoading}
+                  />
+                  <button onClick={sendChatMessage} disabled={isChatLoading}>
+                    {isChatLoading ? 'Sending...' : 'Send'}
+                  </button>
+                </div>
+              </div>
             </div>
           </div>
           <button onClick={signOut}>Sign out</button>

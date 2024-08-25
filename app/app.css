@@ -1,0 +1,317 @@
+html, body {
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  height: 100%;
+  overflow-x: hidden;
+}
+
+body {
+  background: linear-gradient(135deg, #6a11cb, #2575fc); /* Purple to blue gradient background */
+  display: flex;
+  font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
+  justify-content: center;
+  align-items: center;
+  color: white; /* Set default text color to white */
+}
+
+main {
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  max-width: 100%; /* Make sure main takes full width */
+  height: 100vh; /* Make sure main takes full height */
+  margin: 0;
+  color: inherit; /* Inherit white text color from body */
+}
+
+.content-container {
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start;
+  width: 100%;
+  height: 100%;
+}
+
+.transcript-container, .comments-container, .chat-container {
+  padding: 10px;
+  border-radius: 8px;
+  margin-right: 10px;
+  background: linear-gradient(135deg, #2575fc, #6a11cb); /* Blue to purple gradient */
+  color: white; /* Ensure text is visible */
+}
+
+.transcript-container {
+  width: 50%;
+}
+
+.right-container {
+  display: flex;
+  flex-direction: column;
+  width: 50%;
+  gap: 20px;
+}
+
+button {
+  border-radius: 8px;
+  border: 1px solid transparent;
+  padding: 0.6em 1.2em;
+  font-size: 1em;
+  font-weight: 500;
+  font-family: inherit;
+  background-color: #000000;
+  cursor: pointer;
+  transition: background-color 0.25s, border-color 0.25s;
+  color: white;
+  margin: 10px 0;
+}
+
+button:hover {
+  background-color: #333333;
+  border-color: #646cff;
+}
+
+button:focus,
+button:focus-visible {
+  outline: 4px auto -webkit-focus-ring-color;
+}
+
+button:disabled {
+  background-color: #666666;
+  cursor: not-allowed;
+}
+
+ul {
+  padding-inline-start: 0;
+  margin-block-start: 0;
+  margin-block-end: 0;
+  list-style-type: none;
+  display: flex;
+  flex-direction: column;
+  margin: 8px 0;
+  border: 1px solid black;
+  gap: 1px;
+  background-color: black;
+  border-radius: 8px;
+  overflow: auto;
+}
+
+li {
+  background-color: white;
+  padding: 8px;
+  color: black; /* Ensure text in list items is visible on white background */
+}
+
+li:hover {
+  background: #dadbf9;
+}
+
+.transcript-text {
+  white-space: pre-wrap;
+  border: 1px solid #333333; /* Adjust border color for better contrast */
+  padding: 10px;
+  margin-bottom: 10px;
+  background-color: rgba(255, 255, 255, 0.1); /* Slightly transparent to blend with gradient */
+  min-height: 300px;
+  max-height: 500px;
+  overflow-y: auto;
+  position: relative;
+  color: white; /* Ensure text color is white */
+}
+
+.highlighted-text {
+  background-color: #ffff00;
+  cursor: pointer;
+  position: relative;
+  color: black; /* Ensure highlighted text is visible */
+}
+
+.comment-indicator {
+  font-size: 0.7em;
+  vertical-align: super;
+  color: #0000ff;
+  font-weight: bold;
+}
+
+.comment-tooltip {
+  visibility: hidden;
+  width: 200px;
+  background-color: #555;
+  color: #fff;
+  text-align: center;
+  border-radius: 6px;
+  padding: 5px;
+  position: absolute;
+  z-index: 1;
+  bottom: 125%;
+  left: 50%;
+  margin-left: -100px;
+  opacity: 0;
+  transition: opacity 0.3s;
+}
+
+.highlighted-text:hover .comment-tooltip {
+  visibility: visible;
+  opacity: 1;
+}
+
+.transcript-edit {
+  width: 100%;
+  height: 300px;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  font-family: inherit;
+  font-size: 1em;
+  line-height: 1.5;
+  resize: vertical;
+  color: black; /* Ensure text is visible during editing */
+}
+
+.comment-item {
+  background-color: rgba(255, 255, 255, 0.1); /* Match background with slight transparency */
+  padding: 10px;
+  margin-bottom: 10px;
+  border-radius: 4px;
+  color: white; /* Comment text color */
+}
+
+.comment-item h3 {
+  margin-top: 0;
+  color: #0000ff;
+}
+
+.comment-item p:nth-child(2) {
+  font-style: italic;
+  color: #dddddd; /* Slightly lighter for contrast */
+}
+
+.comment-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+  margin-top: 5px;
+}
+
+.comment-actions button {
+  padding: 5px 10px;
+  font-size: 0.8em;
+  background-color: #000000;
+  color: white;
+}
+
+.comment-actions button:hover {
+  background-color: #333333;
+}
+
+h1, h2 {
+  color: white;
+  margin-bottom: 10px;
+}
+
+a {
+  font-weight: 800;
+  text-decoration: none;
+  color: white; /* Ensure links are white */
+}
+
+.chat-messages {
+  height: 300px;
+  overflow-y: auto;
+  margin-bottom: 10px;
+  padding: 10px;
+  background-color: rgba(255, 255, 255, 0.1); /* Match background with slight transparency */
+  border-radius: 4px;
+  color: white; /* Ensure chat messages are white */
+}
+
+.message {
+  margin-bottom: 10px;
+  padding: 5px 10px;
+  border-radius: 4px;
+  color: white; /* Ensure message text is white */
+}
+
+.message.user {
+  background-color: #e6f2ff;
+  text-align: right;
+  color: black; /* User message text color */
+}
+
+.message.assistant {
+  background-color: #f0f0f0;
+  text-align: left;
+  color: black; /* Assistant message text color */
+}
+
+.chat-input {
+  display: flex;
+}
+
+.chat-input input {
+  flex-grow: 1;
+  padding: 5px;
+  margin-right: 10px;
+  color: black; /* Chat input text color */
+}
+
+.file-upload {
+  margin-bottom: 10px;
+  color: white;
+}
+
+.file-upload button {
+  width: 100%;
+  padding: 10px;
+  background-color: #000000;
+  border: 1px solid #000000;
+  border-radius: 4px;
+  cursor: pointer;
+  color: white;
+}
+
+.file-upload button:hover {
+  background-color: #333333;
+}
+
+.file-upload button:disabled {
+  background-color: #666666;
+  cursor: not-allowed;
+}
+
+.saved-transcript {
+  background-color: #000000;
+  border: 1px solid #000000;
+  padding: 10px;
+  margin-bottom: 10px;
+  border-radius: 4px;
+  color: white;
+}
+
+.saved-transcript p {
+  margin-bottom: 10px;
+}
+
+.instructions-container {
+  padding: 10px;
+  margin-top: 20px;
+  border-radius: 8px;
+  background: linear-gradient(135deg, #2575fc, #6a11cb); /* Blue to purple gradient */
+  color: white; /* Ensure text is visible */
+}
+
+.instructions-container h2 {
+  margin-top: 0;
+  margin-bottom: 10px;
+  color: white;
+}
+
+.instructions-container p {
+  margin: 5px 0;
+}
+
+.comment-tooltip a {
+  color: #ffffff;
+  text-decoration: underline;
+  margin-top: 5px;
+}
