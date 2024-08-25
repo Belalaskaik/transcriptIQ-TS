@@ -47,7 +47,7 @@ export default function App() {
             color="secondary.main"
             gutterBottom
           >
-            Sales Transcript AI
+            Transcript IQ
           </Typography>
           <Typography
             variant="h5"
